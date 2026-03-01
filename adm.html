@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checklist Admin - Mera Kashmir</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(180deg, #1a1f35 0%, #2d3561 50%, #436b9d 100%);
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .snowflake {
+            position: fixed;
+            z-index: 1;
+            user-select: none;
+            pointer-events: none;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0.9;
+            text-shadow: 0 0 5px rgba(255,255,255,0.8);
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10px) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .snowfall-animation {
+            animation: snowfall 12s linear infinite;
+        }
+
+        .card { 
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3); 
+            width: 100%; 
+            max-width: 500px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            z-index: 10;
+            position: relative;
+        }
+
+        h2 { 
+            color: #0d47a1; 
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+            border-bottom: 3px solid #0d47a1;
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #1a1f35;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 14px 12px; 
+            margin-bottom: 8px; 
+            border: 2px solid #0d47a1; 
+            border-radius: 8px; 
+            box-sizing: border-box;
+            font-size: 1rem;
+            color: #1a1f35;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1e88e5;
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+            background: #f8f9ff;
+        }
+
+        input::placeholder {
+            color: #999;
+            font-weight: 500;
+        }
+
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background: linear-gradient(135deg, #0d47a1, #1e88e5);
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(13, 71, 161, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .list-preview { 
+            margin-top: 25px; 
+            border-top: 2px solid #0d47a1; 
+            padding-top: 15px;
+        }
+
+        .list-preview h3 {
+            color: #0d47a1;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 12px; 
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.05), rgba(30, 136, 229, 0.05));
+            color: #1a1f35;
+            font-weight: 500;
+        }
+
+        .item-text {
+            flex-grow: 1;
+        }
+
+        .delete-btn {
+            background: #e53935;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background: #c62828;
+            transform: scale(1.05);
+        }
+
+        .info-text {
+            font-size: 0.9rem; 
+            color: #1a1f35;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(13, 71, 161, 0.2);
+            line-height: 1.6;
+        }
+
+        .info-text b {
+            color: #0d47a1;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-link a {
+            color: #0d47a1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-link a:hover {
+            color: #1e88e5;
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsive - 6-6.5 inch phones */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                justify-content: flex-start;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 100%;
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1.2rem;
+                padding-bottom: 10px;
+            }
+
+            label {
+                font-size: 0.95rem;
+                margin-bottom: 6px;
+            }
+
+            input {
+                padding: 12px 10px;
+                font-size: 16px;
+                margin-bottom: 6px;
+                border-radius: 6px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 1rem;
+                margin-top: 8px;
+            }
+
+            .list-preview {
+                margin-top: 20px;
+            }
+
+            .list-preview h3 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            .item {
+                padding: 10px;
+                margin-bottom: 8px;
+                border-radius: 6px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .item-text {
+                margin-bottom: 8px;
+                width: 100%;
+            }
+
+            .delete-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .info-text {
+                font-size: 0.85rem;
+                margin-top: 12px;
+                padding-top: 12px;
+            }
+
+            .back-link {
+                margin-top: 12px;
+                padding-top: 12px;
+            }
+
+            .back-link a {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Extra small phones (up to 5.5 inches) */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+                min-height: auto;
+            }
+
+            .card {
+                padding: 1rem;
+                border-radius: 12px;
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+                padding-bottom: 8px;
+            }
+
+            label {
+                font-size: 0.9rem;
+                margin-bottom: 5px;
+                font-weight: 500;
+            }
+
+            input {
+                padding: 10px 8px;
+                font-size: 16px;
+                margin-bottom: 5px;
+                border: 2px solid #0d47a1;
+            }
+
+            button {
+                padding: 11px;
+                font-size: 0.95rem;
+                margin-top: 6px;
+            }
+
+            .list-preview {
+                margin-top: 18px;
+                padding-top: 12px;
+            }
+
+            .list-preview h3 {
+                font-size: 0.95rem;
+                margin-bottom: 8px;
+            }
+
+            .item {
+                padding: 8px;
+                margin-bottom: 6px;
+                flex-direction: column;
+                align-items: flex-start;
+                font-size: 0.9rem;
+            }
+
+            .item-text {
+                margin-bottom: 6px;
+                word-break: break-word;
+            }
+
+            .delete-btn {
+                padding: 5px 8px;
+                font-size: 0.75rem;
+                margin-left: 0;
+                width: 100%;
+                cursor: pointer;
+            }
+
+            .info-text {
+                font-size: 0.8rem;
+                margin-top: 10px;
+                padding-top: 10px;
+                line-height: 1.5;
+            }
+
+            .back-link {
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            .back-link a {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🏔️ Kashmir Trip Admin</h2>
+    
+    <div class="form-group">
+        <label for="itemInput">Add Checklist Item</label>
+        <input type="text" id="itemInput" placeholder="e.g., Passport, Warm jacket, Hiking boots">
+    </div>
+
+    <div class="form-group">
+        <label for="videoInput">Video Filename (Optional)</label>
+        <input type="text" id="videoInput" placeholder="e.g., mountain-adventure.mp4">
+    </div>
+
+    <button onclick="saveData()">✅ Add Item to List</button>
+
+    <div class="list-preview" id="preview">
+        <h3>📋 Checklist Items:</h3>
+        <p style="color: #999; text-align: center;">No items yet. Add one above!</p>
+    </div>
+
+    <div class="info-text">
+        💡 <b>How it works:</b> Add items here, then save the video filename. Open the checklist page to see your items. Check them all to trigger the celebration!
+    </div>
+
+    <div class="back-link">
+        <a href="index.html">← Back to Checklist</a>
+    </div>
+</div>
+
+<script>
+    let items = [];
+    
+    // Load existing items on page load
+    function loadItems() {
+        items = JSON.parse(localStorage.getItem('tripChecklist')) || [];
+        renderPreview();
+    }
+
+    function saveData() {
+        const itemText = document.getElementById('itemInput').value.trim();
+        const videoFile = document.getElementById('videoInput').value.trim();
+        
+        if(itemText) {
+            items.push(itemText);
+            localStorage.setItem('tripChecklist', JSON.stringify(items));
+            document.getElementById('itemInput').value = '';
+        }
+        
+        if(videoFile) {
+            localStorage.setItem('tripVideo', videoFile);
+            document.getElementById('videoInput').value = '';
+        }
+        
+        if(!itemText && !videoFile) {
+            alert('Please add an item or video filename!');
+            return;
+        }
+        
+        renderPreview();
+    }
+
+    function deleteItem(index) {
+        items.splice(index, 1);
+        localStorage.setItem('tripChecklist', JSON.stringify(items));
+        renderPreview();
+    }
+
+    function renderPreview() {
+        const div = document.getElementById('preview');
+        if(items.length === 0) {
+            div.innerHTML = '<h3>📋 Checklist Items:</h3><p style="color: #999; text-align: center;">No items yet. Add one above!</p>';
+        } else {
+            let html = '<h3>📋 Checklist Items (' + items.length + '):</h3>';
+            items.forEach((item, index) => {
+                html += `<div class="item">
+                    <span class="item-text">✓ ${item}</span>
+                    <button class="delete-btn" onclick="deleteItem(${index})">Remove</button>
+                </div>`;
+            });
+            div.innerHTML = html;
+        }
+    }
+
+    // Create snowflakes
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake', 'snowfall-animation');
+        snowflake.innerHTML = '❄️';
+        snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        snowflake.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        snowflake.style.animationDelay = Math.random() * 2 + 's';
+        snowflake.style.fontSize = (Math.random() * 20 + 12) + 'px';
+        
+        document.body.appendChild(snowflake);
+        setTimeout(() => snowflake.remove(), 15000);
+    }
+
+    setInterval(createSnowflake, 200);
+    loadItems();
+</script>
+
+</body>
+</html>
