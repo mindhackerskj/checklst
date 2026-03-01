@@ -184,6 +184,1255 @@
         /* Airplane Styling */
         #airplane {
             position: fixed;
+            top: 38%;
+            left: -150px;
+            width: 160px;
+            height: 160px;
+            display: none;
+            z-index: 100;
+            filter: drop-shadow(0px 4px 15px rgba(255, 215, 0, 0.8));
+            object-fit: contain;
+        }
+
+        /* Airplane trail effect */
+        .airplane-trail {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99;
+            opacity: 0.6;
+            font-size: 60px;
+        }
+
+        @keyframes flyAcross {
+            0% { 
+                left: -150px; 
+                transform: translateY(0) rotate(5deg) scale(1);
+                opacity: 1;
+                filter: drop-shadow(0px 4px 15px rgba(255, 215, 0, 0.8));
+            }
+            50% {
+                filter: drop-shadow(0px 8px 25px rgba(255, 215, 0, 1));
+            }
+            100% { 
+                left: 110vw; 
+                transform: translateY(-100px) rotate(-5deg) scale(1.1);
+                opacity: 1;
+                filter: drop-shadow(0px 4px 15px rgba(255, 215, 0, 0.8));
+            }
+        }
+
+        #airplane.flying {
+            animation: flyAcross 3.5s forwards ease-in-out;
+        }
+
+        /* Journey Text - Moves with Airplane */
+        #journey-text {
+            position: fixed;
+            top: 52%;
+            left: -200px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            display: none;
+            z-index: 98;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.8);
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+        }
+
+        @keyframes journeyFly {
+            0% { 
+                left: -200px;
+                opacity: 1;
+            }
+            100% { 
+                left: 110vw;
+                opacity: 1;
+            }
+        }
+
+        #journey-text.flying {
+            display: block;
+            animation: journeyFly 3.5s forwards ease-in-out;
+        }
+
+        /* Video Overlay */
+        #video-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center; 
+            align-items: center;
+            z-index: 200;
+        }
+
+        #video-overlay.closing {
+            animation: overlayFade 1s forwards ease-out;
+        }
+
+        /* Close button for video */
+        #video-close-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 210;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #video-close-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        #video-overlay.show-close #video-close-btn {
+            display: flex;
+        }
+
+        @keyframes overlayFade {
+            0% {
+                background: rgba(0, 0, 0, 0.9);
+                opacity: 1;
+            }
+            100% {
+                background: rgba(0, 0, 0, 0);
+                opacity: 0;
+                display: none;
+            }
+        }
+
+        video { 
+            max-width: 95%; 
+            max-height: 90vh; 
+            border: 4px solid white;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.3);
+            animation: videoScale 0.5s ease-out;
+        }
+
+        @keyframes videoScale {
+            from {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Celebration Screen */
+        #celebration-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 300;
+            background: linear-gradient(135deg, #ffeb3b 0%, #fbc02d 50%, #f57f17 100%);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #celebration-screen.show {
+            display: flex;
+            animation: celebrationFadeIn 1s ease-out;
+        }
+
+        #celebration-screen.transitioning {
+            animation: celebrationToHeader 1s ease-in-out forwards;
+        }
+
+        @keyframes celebrationFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes celebrationToHeader {
+            0% {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                opacity: 1;
+            }
+            100% {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                height: 0;
+                opacity: 0;
+            }
+        }
+
+        .celebration-content {
+            text-align: center;
+            animation: celebrationBounce 0.8s ease-out;
+        }
+
+        @keyframes celebrationBounce {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .celebration-heading {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.8);
+            margin: 0;
+            letter-spacing: 3px;
+            animation: textGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.8); }
+            50% { text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.4), 0 0 50px rgba(255, 215, 0, 1); }
+        }
+
+        .celebration-subheading {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0d47a1;
+            margin: 20px 0 0 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .celebration-emoji {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            animation: floatEmoji 3s ease-in-out infinite;
+        }
+
+        @keyframes floatEmoji {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 295;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .admin-link {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(13, 71, 161, 0.2);
+        }
+
+        .admin-link a {
+            color: #0d47a1;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .admin-link a:hover {
+            color: #1e88e5;
+            text-decoration: underline;
+        }
+
+        /* Itinerary Day Cards */
+        #itinerary-section {
+            display: none;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 90%;
+            max-width: 900px;
+            z-index: 20;
+            background: rgba(30, 30, 50, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 50px 20px 30px 20px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #itinerary-section.show {
+            display: block;
+            animation: fadeInUp 1s ease-out both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .itinerary-title {
+            text-align: center;
+            color: #fff;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .day-cards-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            animation: slideInCards 1s ease-out both;
+        }
+
+        @keyframes slideInCards {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .day-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.99), rgba(230, 242, 255, 0.99));
+            border-radius: 15px;
+            padding: 25px 20px;
+            border: 2px solid rgba(13, 71, 161, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .day-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(13, 71, 161, 0.5);
+            border-color: rgba(13, 71, 161, 0.8);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(200, 230, 255, 1));
+        }
+
+        .day-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .day-location {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e88e5;
+            margin: 0;
+        }
+
+        .day-emoji {
+            font-size: 3rem;
+            margin-top: 12px;
+        }
+
+        /* Mobile Responsive - 6-6.5 inch phones */
+        @media (max-width: 768px) {
+            #checklist-container {
+                width: 90%;
+                max-width: 380px;
+                padding: 1.5rem;
+                margin: 0 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+                padding-bottom: 10px;
+            }
+
+            p {
+                font-size: 0.95rem;
+            }
+
+            .check-item {
+                margin: 12px 0;
+                font-size: 1rem;
+                padding: 10px 12px;
+            }
+
+            input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+                margin-right: 12px;
+            }
+
+            .admin-link {
+                margin-top: 12px;
+                padding-top: 12px;
+            }
+
+            .admin-link a {
+                font-size: 0.95rem;
+            }
+
+            /* Celebration screen responsive */
+            .celebration-heading {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+
+            .celebration-subheading {
+                font-size: 1.8rem;
+                letter-spacing: 1px;
+                margin-top: 15px;
+            }
+
+            .celebration-emoji {
+                font-size: 4.5rem;
+                margin-bottom: 15px;
+            }
+
+            .celebration-content {
+                padding: 0 20px;
+            }
+
+            /* Video responsive */
+            video {
+                max-width: 95vw;
+                max-height: 80vh;
+            }
+
+            /* Airplane responsive */
+            #airplane {
+                width: 100px;
+                height: 100px;
+            }
+
+            #journey-text {
+                font-size: 1.3rem;
+                top: 52%;
+            }
+
+            .airplane-trail {
+                font-size: 50px;
+            }
+            /* Itinerary responsive */
+            #itinerary-section {
+                width: 95%;
+                padding: 45px 15px 30px 15px;
+                margin-top: 25px;
+                margin-bottom: 30px;
+            }
+
+            .itinerary-title {
+                font-size: 1.6rem;
+                margin-bottom: 18px;
+            }
+
+            .day-cards-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .day-card {
+                padding: 18px 12px;
+                border-radius: 12px;
+                border: 2px solid rgba(13, 71, 161, 0.4);
+            }
+
+            .day-number {
+                font-size: 1.3rem;
+                margin-bottom: 8px;
+            }
+
+            .day-location {
+                font-size: 1.1rem;
+            }
+
+            .day-emoji {
+                font-size: 2.5rem;
+                margin-top: 10px;
+            }
+        }
+
+        /* Extra small phones (up to 5.5 inches) */
+        @media (max-width: 480px) {
+            body {
+                justify-content: flex-start;
+                padding-top: 20px;
+            }
+
+            #checklist-container {
+                width: 95%;
+                padding: 1.2rem;
+                margin: 0 10px;
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.6rem;
+                padding-bottom: 8px;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+
+            .check-item {
+                margin: 10px 0;
+                font-size: 0.95rem;
+                padding: 8px 10px;
+                border-left: 3px solid #1e88e5;
+            }
+
+            input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                margin-right: 10px;
+            }
+
+            .admin-link {
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            /* Celebration screen adjustments */
+            .celebration-heading {
+                font-size: 2.2rem;
+                letter-spacing: 1px;
+            }
+
+            .celebration-subheading {
+                font-size: 1.3rem;
+                letter-spacing: 0.5px;
+                margin-top: 10px;
+            }
+
+            .celebration-emoji {
+                font-size: 3.5rem;
+                margin-bottom: 10px;
+            }
+
+            .celebration-content {
+                padding: 0 15px;
+            }
+
+            /* Airplane for small screens */
+            #airplane {
+                width: 80px;
+                height: 80px;
+                top: 35%;
+            }
+
+            #journey-text {
+                font-size: 1.1rem;
+                top: 50%;
+            }
+
+            .airplane-trail {
+                font-size: 40px;
+            }
+
+            /* Snow mountains visibility */
+            #snow-mountains {
+                height: 30%;
+            }
+
+            /* Itinerary responsive for small phones */
+            #itinerary-section {
+                width: 98%;
+                padding: 45px 12px 20px 12px;
+                margin-top: 20px;
+                margin-bottom: 25px;
+                background: rgba(30, 30, 50, 0.7);
+            }
+
+            .itinerary-title {
+                font-size: 1.4rem;
+                margin-bottom: 15px;
+            }
+
+            .day-cards-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .day-card {
+                padding: 15px 10px;
+                border-radius: 10px;
+                border: 2px solid rgba(13, 71, 161, 0.5);
+                background: rgba(255, 255, 255, 0.99);
+            }
+
+            .day-number {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+
+            .day-location {
+                font-size: 1rem;
+                font-weight: 700;
+            }
+
+            .day-emoji {
+                font-size: 2rem;
+                margin-top: 8px;
+            }
+
+            #celebration-header.show {
+                padding: 10px 15px;
+            }
+
+            .header-title {
+                font-size: 1.3rem;
+            }
+
+            .header-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Celebration Header (Shows after video) -->
+<div id="celebration-header">
+    <h2 class="header-title">Salam Kashmir</h2>
+    <p class="header-subtitle">Trip Mode ON</p>
+</div>
+
+<!-- Itinerary Day Cards -->
+<div id="itinerary-section">
+    <div class="itinerary-title">Your 4-Day Adventure in Kashmir</div>
+    <div class="day-cards-container">
+        <div class="day-card">
+            <div class="day-number">Day 1</div>
+            <p class="day-location">Srinagar</p>
+            <div class="day-emoji">🏞️</div>
+        </div>
+        <div class="day-card">
+            <div class="day-number">Day 2</div>
+            <p class="day-location">Gulmarg</p>
+            <div class="day-emoji">⛷️</div>
+        </div>
+        <div class="day-card">
+            <div class="day-number">Day 3</div>
+            <p class="day-location">Sonamarg</p>
+            <div class="day-emoji">🏔️</div>
+        </div>
+        <div class="day-card">
+            <div class="day-number">Day 4</div>
+            <p class="day-location">Pahalgam</p>
+            <div class="day-emoji">🏕️</div>
+        </div>
+    </div>
+</div>
+
+<!-- Snow Mountains Background -->
+<svg id="snow-mountains" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
+    <defs>
+        <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e6f2ff;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <!-- Far mountains -->
+    <polygon points="0,250 200,100 400,250" fill="url(#mountainGradient)" opacity="0.6"/>
+    <polygon points="300,250 500,80 700,250" fill="url(#mountainGradient)" opacity="0.65"/>
+    <polygon points="600,250 850,90 1100,250" fill="url(#mountainGradient)" opacity="0.6"/>
+    <polygon points="1000,250 1200,120 1400,250" fill="url(#mountainGradient)" opacity="0.65"/>
+    
+    <!-- Closer/Darker mountains -->
+    <polygon points="0,300 250,150 500,300" fill="#d9e9f7"/>
+    <polygon points="350,300 650,120 950,300" fill="#c5ddf5"/>
+    <polygon points="750,300 1100,140 1400,300" fill="#d9e9f7"/>
+    
+    <!-- Snow peaks detail -->
+    <polygon points="200,150 230,130 260,150" fill="#ffffff" opacity="0.8"/>
+    <polygon points="550,130 600,100 650,130" fill="#ffffff" opacity="0.8"/>
+    <polygon points="900,160 950,130 1000,160" fill="#ffffff" opacity="0.8"/>
+</svg>
+
+<div id="checklist-container">
+    <h1>🏔️ Mera Kashmir</h1>
+    <p style="text-align:center;">Complete your prep for the mountains!</p>
+    <div id="listBody"></div>
+</div>
+
+    <img id="airplane" src="plane.png" alt="Airplane">
+
+    <div id="journey-text">Kochi - Srinagar</div>
+
+    <div id="video-overlay">
+        <button id="video-close-btn" onclick="closeVideoWithAnimation()">✕</button>
+        <iframe id="myVideo" width="90%" height="80%" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border: 4px solid white; border-radius: 12px; box-shadow: 0 0 50px rgba(255,255,255,0.3); animation: videoScale 0.5s ease-out;"></iframe>
+    </div>
+
+<div id="celebration-screen">
+    <div class="celebration-content">
+        <div class="celebration-emoji">🏔️✈️🎉</div>
+        <h1 class="celebration-heading">Salam Kashmir</h1>
+        <h2 class="celebration-subheading">Trip Mode ON</h2>
+    </div>
+</div>
+
+<script>
+    const listBody = document.getElementById('listBody');
+    const airplane = document.getElementById('airplane');
+    const journeyText = document.getElementById('journey-text');
+    const container = document.getElementById('checklist-container');
+    const overlay = document.getElementById('video-overlay');
+    const video = document.getElementById('myVideo');
+
+    // Initialize snowfall animation
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake', 'snowfall-animation');
+        snowflake.innerHTML = '❄️';
+        snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        snowflake.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        snowflake.style.animationDelay = Math.random() * 2 + 's';
+        snowflake.style.fontSize = (Math.random() * 20 + 12) + 'px';
+        
+        document.body.appendChild(snowflake);
+        
+        setTimeout(() => {
+            snowflake.remove();
+        }, 15000);
+    }
+
+    // Create snowflakes continuously
+    setInterval(createSnowflake, 200);
+
+    // Default checklist items
+    const DEFAULT_ITEMS = [
+        'Sunscreen',
+        'Phone Charger',
+        'Powerbank',
+        'Sunglass',
+        'Lip balm',
+        'Thorth and Soap',
+        'Brush and Paste',
+        'Thermal Flask',
+        'Aadhar',
+        'Jacket and Thermals',
+        'Movies and Earphones'
+    ];
+
+    // Retrieve data from Admin or use defaults
+    let items = DEFAULT_ITEMS;
+    
+    // Try to load saved items from localStorage
+    try {
+        const savedItems = localStorage.getItem('tripChecklist');
+        if (savedItems) {
+            const parsedItems = JSON.parse(savedItems);
+            if (Array.isArray(parsedItems) && parsedItems.length > 0) {
+                items = parsedItems;
+            }
+        }
+    } catch (e) {
+        console.error('Error loading items:', e);
+        items = DEFAULT_ITEMS;
+    }
+    
+    const videoFile = localStorage.getItem('tripVideo') || 'vide.mp4';
+
+    // Display Items
+    if(items.length === 0) {
+        listBody.innerHTML = "<p style='text-align:center; color:#666;'>👉 Go to the Admin Panel to add checklist items!</p>";
+    } else {
+        items.forEach((item) => {
+            listBody.innerHTML += `
+                <div class="check-item">
+                    <input type="checkbox" class="trip-check" onchange="checkStatus()">
+                    <label>${item}</label>
+                </div>
+            `;
+        });
+    }
+
+    function checkStatus() {
+        const checkboxes = document.querySelectorAll('.trip-check');
+        const allChecked = Array.from(checkboxes).every(c => c.checked);
+
+        // Play sound effect when checking
+        playCheckSound();
+
+        // Update visual feedback for checked items
+        checkboxes.forEach((cb, index) => {
+            if(cb.checked) {
+                cb.closest('.check-item').classList.add('checked');
+            } else {
+                cb.closest('.check-item').classList.remove('checked');
+            }
+        });
+
+        if (allChecked && checkboxes.length > 0) {
+            // Initialize audio context on user interaction
+            initializeAudioContext();
+            startSequence();
+        }
+    }
+
+    // Initialize audio context on first user interaction
+    function initializeAudioContext() {
+        try {
+            if (!window.audioContext) {
+                window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            // Resume if suspended
+            if (window.audioContext.state === 'suspended') {
+                window.audioContext.resume();
+            }
+        } catch (e) {
+            console.error('Error initializing audio context:', e);
+        }
+    }
+
+    // Sound effect for checking
+    function playCheckSound() {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        
+        gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+    }
+
+    // Airplane engine sound effect
+    function playAirplaneSound() {
+        try {
+            // Use a single global audio context to avoid browser policy issues
+            let audioContext = window.audioContext || new (window.AudioContext || window.webkitAudioContext)();
+            window.audioContext = audioContext;
+            
+            // Resume audio context if suspended
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            
+            const now = audioContext.currentTime;
+            const duration = 3.5;
+            
+            // Create oscillators for airplane sound
+            const osc1 = audioContext.createOscillator();
+            const osc2 = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            const gainOsc1 = audioContext.createGain();
+            const gainOsc2 = audioContext.createGain();
+            
+            // Base engine sound
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(120, now);
+            osc1.frequency.exponentialRampToValueAtTime(180, now + duration);
+            gainOsc1.gain.setValueAtTime(0.4, now);
+            gainOsc1.gain.exponentialRampToValueAtTime(0.25, now + duration);
+            
+            // Higher frequency component
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(280, now);
+            osc2.frequency.exponentialRampToValueAtTime(320, now + duration);
+            gainOsc2.gain.setValueAtTime(0.25, now);
+            gainOsc2.gain.exponentialRampToValueAtTime(0.15, now + duration);
+            
+            // Master volume control
+            gain.gain.setValueAtTime(0.2, now);
+            gain.gain.exponentialRampToValueAtTime(0.08, now + duration);
+            
+            // Connect nodes
+            osc1.connect(gainOsc1);
+            osc2.connect(gainOsc2);
+            gainOsc1.connect(gain);
+            gainOsc2.connect(gain);
+            gain.connect(audioContext.destination);
+            
+            // Start and stop oscillators
+            osc1.start(now);
+            osc2.start(now);
+            osc1.stop(now + duration);
+            osc2.stop(now + duration);
+            
+            console.log('Airplane sound playing');
+        } catch (e) {
+            console.error('Error playing airplane sound:', e);
+        }
+    }
+
+    function startSequence() {
+        // Fade out checklist
+        container.style.opacity = '0';
+        container.style.transform = 'scale(0.8)';
+        
+        setTimeout(() => {
+            // Start Plane with enhanced animation
+            airplane.style.display = 'block';
+            airplane.classList.add('flying');
+            journeyText.classList.add('flying');
+            journeyText.style.display = 'block';
+            createAirplaneTrail();
+            playAirplaneSound();
+
+            // Use timeout to ensure animation completes
+            setTimeout(() => {
+                airplane.style.display = 'none';
+                airplane.classList.remove('flying');
+                journeyText.classList.remove('flying');
+                journeyText.style.display = 'none';
+                showVideo();
+            }, 3600); // Slightly longer than 3.5s animation
+        }, 500);
+    }
+
+    function createAirplaneTrail() {
+        const startX = -150;
+        const startY = window.innerHeight * 0.4;
+        const endX = window.innerWidth + 150;
+        const endY = window.innerHeight * 0.25;
+        const trailCount = 15;
+
+        for (let i = 0; i < trailCount; i++) {
+            setTimeout(() => {
+                const trail = document.createElement('div');
+                trail.classList.add('airplane-trail');
+                trail.innerHTML = '✈️';
+                trail.style.left = (startX + (endX - startX) * (i / trailCount)) + 'px';
+                trail.style.top = (startY + (endY - startY) * (i / trailCount)) + 'px';
+                trail.style.animation = 'fadeOut 1s ease-out forwards';
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 1000);
+            }, i * 150);
+        }
+    }
+
+    function showVideo() {
+        // YouTube embed URL for the video
+        const youtubeUrl = 'https://www.youtube.com/embed/Pp0ZxeplwI0?autoplay=1';
+        const myVideo = document.getElementById('myVideo');
+        myVideo.src = youtubeUrl;
+        overlay.style.display = 'flex';
+
+        // Close video after 20 seconds
+        const videoTimeout = setTimeout(() => {
+            closeVideoWithAnimation();
+        }, 20000); // 20 seconds
+
+        // Allow Escape key to close video
+        function handleEscapeKey(e) {
+            if (e.key === 'Escape' && overlay.style.display === 'flex') {
+                clearTimeout(videoTimeout);
+                closeVideoWithAnimation();
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+        }
+        document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    function closeVideoWithAnimation() {
+        overlay.classList.add('closing');
+        overlay.classList.remove('show-close');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            overlay.classList.remove('closing');
+            showCelebration();
+        }, 1000);
+    }
+
+    function showCelebration() {
+        const celebrationScreen = document.getElementById('celebration-screen');
+        const celebrationHeader = document.getElementById('celebration-header');
+        const itinerarySection = document.getElementById('itinerary-section');
+        
+        celebrationScreen.classList.add('show');
+        
+        // Create confetti
+        createConfetti();
+        
+        // After 2.5 seconds, start seamless transition
+        setTimeout(() => {
+            celebrationScreen.classList.add('transitioning');
+            celebrationHeader.classList.add('show');
+            itinerarySection.classList.add('show');
+            
+            // Hide celebration screen after transition completes
+            setTimeout(() => {
+                celebrationScreen.style.display = 'none';
+            }, 1200);
+        }, 2500);
+    }
+
+    function createConfetti() {
+        const colors = ['#FFD700', '#FFC700', '#FFB700', '#0d47a1', '#1e88e5', '#fff'];
+        const confettiPieces = 50;
+
+        for (let i = 0; i < confettiPieces; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.width = (Math.random() * 15 + 5) + 'px';
+                confetti.style.height = (Math.random() * 15 + 5) + 'px';
+                confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s ease-in forwards`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }, i * 50);
+        }
+    }
+
+    // Add fadeOut animation for trail
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeOut {
+            from {
+                opacity: 0.8;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mera Kashmir Checklist</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(26, 31, 53, 0.85), rgba(45, 53, 97, 0.85)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="snowPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"/><circle cx="60" cy="40" r="1.5" fill="%23ffffff" opacity="0.08"/><circle cx="80" cy="80" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect fill="url(%23snowPattern)" width="400" height="400"/></svg>');
+            background-size: cover, 200px 200px;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        /* Snow Mountains SVG Background */
+        #snow-mountains {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            z-index: 1;
+        }
+
+        /* Snow Falling Animation */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            z-index: 5;
+            user-select: none;
+            pointer-events: none;
+            color: white;
+            font-size: 1.2em;
+            opacity: 0.9;
+            text-shadow: 0 0 5px rgba(255,255,255,0.8);
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .snowfall-animation {
+            animation: snowfall linear infinite;
+        }
+
+        /* Header when celebration transitions */
+        #celebration-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.95), rgba(251, 192, 45, 0.95));
+            padding: 15px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        #celebration-header.show {
+            display: block;
+            animation: slideDownHeader 0.8s ease-out;
+        }
+
+        @keyframes slideDownHeader {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0d47a1;
+            margin: 5px 0 0 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Glass-morphism effect for the container */
+        #checklist-container { 
+            background: rgba(255, 255, 255, 0.97); 
+            backdrop-filter: blur(10px);
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.2); 
+            width: 380px; 
+            z-index: 10; 
+            transition: all 0.5s ease;
+            color: #1a1f35;
+            margin-top: 20px;
+        }
+
+        #checklist-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: 1px;
+            color: #0d47a1;
+            border-bottom: 3px solid #0d47a1;
+            padding-bottom: 12px;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .check-item { 
+            margin: 15px 0; 
+            font-size: 1.15rem; 
+            display: flex; 
+            align-items: center; 
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.08), rgba(30, 136, 229, 0.05));
+            padding: 12px 14px;
+            border-radius: 10px;
+            border-left: 4px solid #1e88e5;
+            transition: all 0.3s;
+            color: #1a1f35;
+            font-weight: 500;
+        }
+
+        .check-item:hover {
+            background: linear-gradient(135deg, rgba(13, 71, 161, 0.15), rgba(30, 136, 229, 0.12));
+            transform: translateX(5px);
+            border-left-color: #0d47a1;
+        }
+
+        .check-item.checked {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .check-item.checked label {
+            color: #666;
+        }
+
+        input[type="checkbox"] { 
+            width: 22px; 
+            height: 22px; 
+            margin-right: 15px; 
+            cursor: pointer; 
+            accent-color: #0d47a1;
+        }
+
+        p {
+            color: #1a1f35;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Airplane Styling */
+        #airplane {
+            position: fixed;
             top: 40%;
             left: -150px;
             font-size: 120px;
@@ -1091,4 +2340,5 @@
 </script>
 
 </body>
+
 </html>
